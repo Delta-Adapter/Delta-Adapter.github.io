@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Delta-Adapter: Scalable Exemplar-Based Image Editing with Single-Pair Supervision">
+  <meta name="keywords" content="Exemplar-Based Image Editing, Single-Pair Supervision, Semantic Delta, Diffusion Models, Image Editing">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Delta-Adapter</title>
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Delta-Adapter: Scalable Exemplar-Based Image Editing with Single-Pair Supervision</h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Jiacheng Chen<sup>1</sup>,</span>
+            <span class="author-block">Songze Li<sup>1</sup>,</span>
+            <span class="author-block">Han Fu<sup>1</sup>,</span>
+            <span class="author-block">Baoquan Zhao<sup>1</sup>,</span>
+            <span class="author-block">Wei Liu<sup>2</sup>,</span>
+            <span class="author-block">Yanyan Liang<sup>3</sup>,</span>
+            <span class="author-block">Li Qing<sup>4</sup>,</span>
+            <span class="author-block">Xudong Mao<sup>1</sup></span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <sup>1</sup>Sun Yat-sen University
+              <sup>2</sup>Video Rebirth<br>
+              <sup>3</sup>Macau University of Science and Technology
+              <sup>4</sup>The Hong Kong Polytechnic University
+            </span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark is-disabled">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper Coming Soon</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark is-disabled">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code Coming Soon</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark is-disabled">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv Coming Soon</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser.png" alt="Exemplar-based image editing with Delta-Adapter"/>
+    </div>
+  </div>
+</section>
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Exemplar-based image editing applies a transformation defined by a source-target image pair to a new query image. Existing methods rely on a pair-of-pairs supervision paradigm, requiring two image pairs sharing the same edit semantics to learn the target transformation. This constraint makes training data difficult to curate at scale and limits generalization across diverse edit types. We propose Delta-Adapter, a method that learns transferable editing semantics under single-pair supervision, requiring no textual guidance. Rather than directly exposing the exemplar pair to the model, we leverage a pre-trained vision encoder to extract a semantic delta that encodes the visual transformation between the two images. This semantic delta is injected into a pre-trained image editing model via a Perceiver-based adapter. Since the target image is never directly visible to the model, it can serve as the prediction target, enabling single-pair supervision without requiring additional exemplar pairs. This formulation allows us to leverage existing large-scale editing datasets for training. To further promote faithful transformation transfer, we introduce a semantic delta consistency loss that aligns the semantic change of the generated output with the ground-truth semantic delta extracted from the exemplar pair. Extensive experiments demonstrate that Delta-Adapter consistently improves both editing accuracy and content consistency over four strong baselines on seen editing tasks, while also generalizing more effectively to unseen editing tasks. Code will be made publicly available.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Method Overview</h2>
+      <img src="static/images/framework.png" alt="Overview of Delta-Adapter" class="blend-img-background center-image"/>
+      <div class="level-set has-text-justified">
+        <p>
+          Delta-Adapter learns exemplar-based image editing from a single source-target pair without textual guidance. Instead of conditioning the model on the full edited exemplar image, we extract a normalized semantic delta from dense SigLIP features, refine it with a gated residual projection, and convert it into edit tokens through a Perceiver resampler.
+        </p>
+        <br>
+        <p>
+          These edit tokens are injected into a frozen DiT-based editing backbone through a decoupled cross-attention branch. Training uses a flow-matching reconstruction objective together with a semantic delta consistency loss, encouraging the generated output to follow the exemplar transformation while preserving the query image content.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Comparison to Baselines</h2>
+      <div class="has-text-centered">
+        <img src="static/images/comparison_seen.png" alt="Comparison on seen editing tasks" style="display: block; width: 100%; margin-bottom: 24px;"/>
+        <img src="static/images/comparison_unseen.png" alt="Comparison on unseen editing tasks" style="display: block; width: 100%; margin-bottom: 10px;"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Continuous Editing and Test-Time Adaptation</h2>
+      <div class="has-text-centered">
+        <img src="static/images/continuous_tta.png" alt="Continuous control and test-time adaptation with Delta-Adapter" style="display: block; width: 100%; margin-bottom: 10px;"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@misc{chen2026deltaadapter,
+  title={Delta-Adapter: Scalable Exemplar-Based Image Editing with Single-Pair Supervision},
+  author={Jiacheng Chen and Songze Li and Han Fu and Baoquan Zhao and Wei Liu and Yanyan Liang and Li Qing and Xudong Mao},
+  year={2026}
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>, adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
