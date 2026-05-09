@@ -125,6 +125,17 @@
 <section class="hero is-small">
   <div class="hero-body">
     <div class="container is-max-desktop">
+      <h2 class="title is-3">Qualitative Results</h2>
+      <div class="has-text-centered">
+        <img src="static/images/appendix_more_ours.png" alt="Additional editing results produced by Delta-Adapter" style="display: block; width: 100%; margin-bottom: 10px;"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
       <h2 class="title is-3">Comparison to Baselines</h2>
       <div class="has-text-centered">
         <img src="static/images/comparison_seen.png" alt="Comparison on seen editing tasks" style="display: block; width: 100%; margin-bottom: 24px;"/>
@@ -137,9 +148,30 @@
 <section class="hero is-small">
   <div class="hero-body">
     <div class="container is-max-desktop">
-      <h2 class="title is-3">Continuous Editing and Test-Time Adaptation</h2>
+      <h2 class="title is-3">Continuous Editing</h2>
+      <div class="content has-text-justified">
+        <p>
+          Delta-Adapter supports continuous image editing by adjusting the injection strength of the decoupled cross-attention branch. Because our method injects only the semantic editing signal rather than the full exemplar pair, increasing the adapter strength smoothly amplifies the transferred transformation while preserving the query content.
+        </p>
+      </div>
       <div class="has-text-centered">
-        <img src="static/images/continuous_tta.png" alt="Continuous control and test-time adaptation with Delta-Adapter" style="display: block; width: 100%; margin-bottom: 10px;"/>
+        <img src="static/images/continuous_editing.png" alt="Continuous image editing with Delta-Adapter" style="display: block; width: 100%; margin-bottom: 10px;"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Test-Time Adaptation</h2>
+      <div class="content has-text-justified">
+        <p>
+          Our single-pair supervision paradigm also enables test-time adaptation for challenging unseen exemplar pairs. At inference time, Delta-Adapter can be fine-tuned using only the provided exemplar pair, improving fine-grained editing fidelity when the base model captures only the coarse semantics of the intended transformation. In our experiments, 20 gradient steps are sufficient, requiring only 33 GB of GPU memory on a single GPU.
+        </p>
+      </div>
+      <div class="has-text-centered">
+        <img src="static/images/test_time_adaptation.png" alt="Test-time adaptation with Delta-Adapter" style="display: block; width: 100%; margin-bottom: 10px;"/>
       </div>
     </div>
   </div>
